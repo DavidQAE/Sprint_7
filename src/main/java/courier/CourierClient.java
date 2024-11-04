@@ -1,4 +1,4 @@
-package Courier;
+package courier;
 
 import io.restassured.response.Response;
 

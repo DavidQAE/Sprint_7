@@ -1,27 +1,25 @@
-import Courier.CourierClient;
-import Courier.CreateCourier;
+import courier.CourierClient;
+import courier.CourierId;
+import courier.CreateCourier;
 import io.qameta.allure.*;
-import io.restassured.RestAssured;
+import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
-import org.junit.Before;
 import org.junit.Test;
+import requestspecification.BaseUrl;
+
 import static io.restassured.RestAssured.given;
 import static org.apache.commons.lang3.RandomStringUtils.random;
 import static org.hamcrest.Matchers.equalTo;
 
 
 
-public class CreateCourierTest {
+public class CreateCourierTest extends BaseUrl {
+private int id;
+CourierClient courierClient = new CourierClient();
 
 
 
-    @Before
-    public void setUp() {
-        RestAssured.baseURI = "https://qa-scooter.praktikum-services.ru";
-
-    }
-
-
+    @DisplayName("Create courier. Check status code and body")
     @Test
     public void createCourierPossibility() {
         Response response = createCourier();
@@ -34,9 +32,12 @@ public class CreateCourierTest {
     public Response createCourier() {
         CreateCourier createCourier = new CreateCourier()
                 .withFirstName(random(15)).withLogin(random(9)).withPassword(random(12));
-        CourierClient courierClient = new CourierClient();
+
 
         Response response = courierClient.create(createCourier);
+        Response loginResponse = CourierClient.createdLogin(createCourier);
+        id = loginResponse.as(CourierId.class).getId();
+        courierClient.deleteCourier(id);
         return response;
     }
 
@@ -46,18 +47,20 @@ public class CreateCourierTest {
                 and().assertThat().body("ok", equalTo(true));
     }
 
-
+    @DisplayName("Create conflict(same) courier. Check status code and body")
     @Test
     public void conflictCourier(){
         Response response = conflictCourierPost();
         checkConflictCourier(response);
+
+
     }
 
     @Step("Create identical courier")
     public Response conflictCourierPost() {
         CreateCourier createCourier = new CreateCourier()
                 .withFirstName("saske").withLogin("ninja").withPassword("1234");
-        CourierClient courierClient = new CourierClient();
+
 
         Response response = courierClient.create(createCourier);
                return response;
@@ -69,7 +72,7 @@ public class CreateCourierTest {
                 and().assertThat().body("message", equalTo("Этот логин уже используется. Попробуйте другой."));
 
     }
-
+    @DisplayName("Create courier without firstName. Check status code and body")
     @Test
     public void courierWithoutFirstName() {
              Response response = createCourierWithoutFirstName();
@@ -80,9 +83,13 @@ public class CreateCourierTest {
     public Response createCourierWithoutFirstName() {
         CreateCourier createCourier = new CreateCourier()
                 .withPassword(random(12)).withLogin(random(15));
-        CourierClient courierClient = new CourierClient();
+
 
         Response response = courierClient.create(createCourier);
+
+        Response loginResponse = CourierClient.createdLogin(createCourier);
+        id = loginResponse.as(CourierId.class).getId();
+        courierClient.deleteCourier(id);
         return response;
     }
     @Step("Check statusCode of courier without FirstName")
@@ -90,7 +97,7 @@ public class CreateCourierTest {
         response.then().statusCode(400).
                 and().assertThat().body("message", equalTo("Недостаточно данных для создания учетной записи"));
     }
-
+    @DisplayName("Create courier without login. Check status code and body")
     @Test
     public void courierWithoutLogin() {
         Response response = createCourierWithoutLogin();
@@ -101,9 +108,12 @@ public class CreateCourierTest {
         CreateCourier createCourier = new CreateCourier()
                 .withFirstName(random(12)).withPassword(random(14));
 
-        CourierClient courierClient = new CourierClient();
+
 
         Response response = courierClient.create(createCourier);
+
+
+
         return response;
     }
 
@@ -112,7 +122,7 @@ public class CreateCourierTest {
         response.then().statusCode(400).
                 and().assertThat().body("message", equalTo("Недостаточно данных для создания учетной записи"));
     }
-
+    @DisplayName("Create courier without password. Check status code and body")
     @Test
     public void courierWithoutPassword(){
         Response response = createCourierWithoutPassword();
@@ -123,7 +133,7 @@ public class CreateCourierTest {
         CreateCourier createCourier = new CreateCourier()
                 .withLogin(random(15)).withFirstName(random(12));
 
-        CourierClient courierClient = new CourierClient();
+
 
         Response response = courierClient.create(createCourier);
         return response;
@@ -134,17 +144,20 @@ public class CreateCourierTest {
                 and().assertThat().body("message", equalTo("Недостаточно данных для создания учетной записи"));
 
     }
+
+    @DisplayName("Create courier with the identical login. Check status code and body")
    @Test
    public void loginTest() {
         Response response = sameLoginCourier();
         checkSameLoginCourier(response);
+
    }
 
     @Step("Create courier with identical login")
     public Response sameLoginCourier() {
         CreateCourier createCourier = new CreateCourier()
                 .withFirstName("DavidLuigi11").withLogin("ninja").withPassword("Fi1231313");
-        CourierClient courierClient = new CourierClient();
+
 
         Response response = courierClient.create(createCourier);
         return response;
@@ -156,4 +169,6 @@ public class CreateCourierTest {
                 and().assertThat().body("message", equalTo("Этот логин уже используется. Попробуйте другой."));
 
     }
+
+
 }

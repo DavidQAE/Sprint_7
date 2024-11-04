@@ -1,7 +1,5 @@
-import Courier.CourierClient;
-import Courier.CreateCourier;
-import Order.CreateOrder;
-import Order.OrderClient;
+import order.CreateOrder;
+import order.OrderClient;
 import io.qameta.allure.*;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
@@ -9,20 +7,19 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import requestspecification.BaseUrl;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.RestAssured.request;
 import static org.apache.commons.lang3.RandomStringUtils.random;
-import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 
 
 @RunWith(Parameterized.class)
-public class CreateOrderTest {
+public class CreateOrderTest extends BaseUrl {
     OrderClient orderClient = new OrderClient();
     private String[] color;
 
@@ -40,11 +37,7 @@ public class CreateOrderTest {
         });
     }
 
-    @Before
-    public void setUp() {
-        RestAssured.baseURI = "https://qa-scooter.praktikum-services.ru";
 
-    }
 
     @Test
     public void scooterColorTest() {

@@ -1,6 +1,4 @@
-package Order;
-
-import Courier.CreateCourier;
+package order;
 
 public class CreateOrder {
     private String firstName;

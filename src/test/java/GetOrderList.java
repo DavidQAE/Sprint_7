@@ -3,6 +3,7 @@ import org.junit.Before;
 import org.junit.Test;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
+import requestspecification.BaseUrl;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.RestAssured.request;
@@ -15,13 +16,9 @@ import static org.hamcrest.Matchers.notNullValue;
 
 
 
-public class GetOrderList {
+public class GetOrderList extends BaseUrl {
 
-    @Before
-    public void setUp() {
-        RestAssured.baseURI = "https://qa-scooter.praktikum-services.ru";
 
-    }
 
    @Test
     public void orderListTest() {
