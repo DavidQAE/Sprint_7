@@ -55,13 +55,13 @@ public class CourierLoginTest extends BaseUrl {
     @DisplayName("Login courier without password and check status code")
     @Test
     public void validationPasswordTest() {
-        Response loginResponse = LoginWithoutPassword();
+        Response loginResponse = loginWithoutPassword();
         checkLoginWithoutPassword(loginResponse);
         id = loginResponse.as(CourierId.class).getId();
     }
 
     @Step("Courier login without password")
-    public Response LoginWithoutPassword() {
+    public Response loginWithoutPassword() {
         CreateCourier createCourier = new CreateCourier()
                 .withFirstName("Алексей").withLogin("QABeast228").withPassword("Large_kitchen900");
 
@@ -82,14 +82,14 @@ public class CourierLoginTest extends BaseUrl {
 }
     @DisplayName("Login courier without login and check status code")
     @Test
-    public void ValidationLoginTest() {
-        Response loginResponse = LoginWithoutLogin();
+    public void validationLoginTest() {
+        Response loginResponse = loginWithoutLogin();
         checkLoginWithoutLogin(loginResponse);
         id = loginResponse.as(CourierId.class).getId();
     }
 
     @Step("Courier login without login")
-    public Response LoginWithoutLogin() {
+    public Response loginWithoutLogin() {
         CreateCourier createCourier = new CreateCourier()
                 .withFirstName("Алексей").withLogin("QABeast228").withPassword("Large_kitchen900");
 

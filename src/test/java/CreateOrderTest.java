@@ -28,7 +28,7 @@ public class CreateOrderTest extends BaseUrl {
     }
 
     @Parameterized.Parameters
-    public static Collection<Object[]> ScooterColor() {
+    public static Collection<Object[]> scooterColor() {
         return Arrays.asList(new Object[][] {
                 {new String[]{"BLACK", "GRAY"}},
                 {new String[]{"BLACK"}},
@@ -45,7 +45,7 @@ public class CreateOrderTest extends BaseUrl {
         checkCreateOrderAndPrintBody(response);
     }
 
-    @Step("Create order while send different colors")
+    @Step("Create order while send different scooter colors")
     public Response createOrder() {
 
         CreateOrder createOrder = new CreateOrder()

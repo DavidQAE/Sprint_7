@@ -35,6 +35,8 @@ CourierClient courierClient = new CourierClient();
 
 
         Response response = courierClient.create(createCourier);
+
+        // Логинимся, получаем ID и удаляем курьера
         Response loginResponse = CourierClient.createdLogin(createCourier);
         id = loginResponse.as(CourierId.class).getId();
         courierClient.deleteCourier(id);
@@ -63,6 +65,11 @@ CourierClient courierClient = new CourierClient();
 
 
         Response response = courierClient.create(createCourier);
+
+        // Логинимcя, получаем ID и удаляем курьера
+        Response loginResponse = CourierClient.createdLogin(createCourier);
+        id = loginResponse.as(CourierId.class).getId();
+        courierClient.deleteCourier(id);
                return response;
 
     }
@@ -86,7 +93,7 @@ CourierClient courierClient = new CourierClient();
 
 
         Response response = courierClient.create(createCourier);
-
+        // Логинимcя, получаем ID и удаляем курьера
         Response loginResponse = CourierClient.createdLogin(createCourier);
         id = loginResponse.as(CourierId.class).getId();
         courierClient.deleteCourier(id);
@@ -111,9 +118,10 @@ CourierClient courierClient = new CourierClient();
 
 
         Response response = courierClient.create(createCourier);
-
-
-
+        // Логинимя, получаем ID и удаляем курьера
+        Response loginResponse = CourierClient.createdLogin(createCourier);
+        id = loginResponse.as(CourierId.class).getId();
+        courierClient.deleteCourier(id);
         return response;
     }
 
@@ -133,9 +141,12 @@ CourierClient courierClient = new CourierClient();
         CreateCourier createCourier = new CreateCourier()
                 .withLogin(random(15)).withFirstName(random(12));
 
-
-
         Response response = courierClient.create(createCourier);
+
+        // Логинимcя, получаем ID и удаляем курьера
+        Response loginResponse = CourierClient.createdLogin(createCourier);
+        id = loginResponse.as(CourierId.class).getId();
+        courierClient.deleteCourier(id);
         return response;
     }
     @Step("Check statusCode of courier without password")
@@ -160,6 +171,11 @@ CourierClient courierClient = new CourierClient();
 
 
         Response response = courierClient.create(createCourier);
+
+        // Логинимcя, получаем ID и удаляем курьера
+        Response loginResponse = CourierClient.createdLogin(createCourier);
+        id = loginResponse.as(CourierId.class).getId();
+        courierClient.deleteCourier(id);
         return response;
 
     }
